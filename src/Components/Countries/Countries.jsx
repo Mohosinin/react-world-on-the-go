@@ -3,6 +3,7 @@ import Country from '../Country/Country';
 import './Countries.css';
 const Countries = ({ countriesPromise }) => {
   const [visitedCountries,setVisitedCountries] =useState([]);
+  const [vistiedFlags,setVisitedFlags] = useState([]);
   
   const handleVisitedCountries = (country) =>{
     console.log('Visited Country',country);
@@ -12,23 +13,38 @@ const Countries = ({ countriesPromise }) => {
     
   }
 
+  const handleVisitedFlag = (flag) =>{
+     const newVisitedFlags =[...vistiedFlags,flag];
+     setVisitedFlags(newVisitedFlags);
+     
+  }
+
   const countriesData = use(countriesPromise);
   const countries = countriesData.countries;
   return (
     <div >
       <h1>In the Countries : {countries.length}</h1>
       <h3>Total Country Visited: {visitedCountries.length}</h3>
+      <h3>Total Flags Visited: {vistiedFlags.length}</h3>
       <ol>
         {
           visitedCountries.map(country => <li key={country.cca3.cca3}>{country.name.common}</li>)
         }
       </ol>
+
+        <div className='flags-container'>
+          {
+            vistiedFlags.map((flag,index) => <img key={index} src={flag}></img>) 
+          }
+        </div>
+
       <div className='countries'>
         {
           countries.map(country => <Country
             key={country.cca3.cca3}
             country={country}
             handleVisitedCountries={handleVisitedCountries}
+            handleVisitedFlag={handleVisitedFlag}
             ></Country>)
         }
       </div>
